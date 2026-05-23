@@ -1,0 +1,57 @@
+graph TD
+    %% Core Entities
+    U[Users]
+    SP[Subscription_Plans]
+    S[Subscriptions]
+    PM[Payment_Methods]
+    I[Invoices]
+    M[Movies]
+    G[Genres]
+    R[Reviews]
+    WH[Watch_Histories]
+    WL[Watchlists]
+    
+    %% Weak & Associative Entities
+    WLI[[Watchlist_Items]] 
+    MGR[Movie_Genre_Relations]
+
+    
+
+%% Relationships
+    REL_Refers{Refers <br/> Recursive}
+    REL_Defines{Defines}
+    REL_OwnsSub{Owns}
+    REL_Registers{Registers}
+    REL_GeneratesInv{Generates}
+    REL_Funds{Funds}
+    REL_Authors{Authors}
+    REL_Receives{Receives}
+    REL_GeneratesHist{Gen_Hist}
+    REL_Features{Features}
+    REL_Curates{Curates}
+    REL_Contains{{Contains}}
+    REL_Included{{Included_In}}
+    REL_Mapped{Mapped_To}
+    REL_Categorizes{Categorizes}
+
+    %% Identity & Finance Routing
+    U ---|1| REL_Refers ---|N| U
+    SP ---|1| REL_Defines ---|N| S
+    U ---|1| REL_OwnsSub ---|N| S
+    U ---|1| REL_Registers ---|N| PM
+    S ---|1| REL_GeneratesInv ---|N| I
+    PM ---|1| REL_Funds ---|N| I
+    
+    %% Telemetry & Feedback Routing
+    U ---|1| REL_Authors ---|N| R
+    M ---|1| REL_Receives ---|N| R
+    U ---|1| REL_GeneratesHist ---|N| WH
+    M ---|1| REL_Features ---|N| WH
+    
+    %% Curation & Taxonomy Routing
+    U ---|1| REL_Curates ---|N| WL
+    WL ---|1| REL_Contains ---|N| WLI
+    M ---|1| REL_Included ---|N| WLI
+    
+    M ---|1| REL_Mapped ---|M| MGR
+    G ---|1| REL_Categorizes ---|N| MGR
